@@ -2,7 +2,7 @@
 //2022-09-21
 //제이든 케이스 (단어의 첫 문자을 대문자로, 나머지는 소문자로)
 
-package codingtest_practice.level1;
+package codingtest_practice.level2;
 
 class JadenCase {
     public String solution(String s) {
