@@ -33,8 +33,4 @@ public class TruckOnTheBridge {
         }
         return time;
     }
-
-    public static void main(String[] args) {
-        solution(2, 10, new int[]{7, 4, 5, 6});
-    }
 }

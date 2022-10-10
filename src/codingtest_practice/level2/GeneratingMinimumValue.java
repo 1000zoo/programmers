@@ -28,10 +28,4 @@ public class GeneratingMinimumValue {
         }
         return answer;
     }
-
-    public static void main(String[] args) {
-        int[] A = {4, 3, 5, 6};
-        int[] B = {2, 5, 8, 4};
-        int minSumOfMultiples = solution(A, B);
-    }
 }

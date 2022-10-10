@@ -27,9 +27,4 @@ public class StringBinaryTranslate {
         }
         return result.reverse().toString();
     }
-
-    public static void main(String[] args) {
-        String s = "01110";
-        solution(s);
-    }
 }
