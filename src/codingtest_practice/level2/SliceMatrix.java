@@ -1,3 +1,7 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/87390
+//2022-10-22
+//n * n 배열 자르기
+
 package codingtest_practice.level2;
 
 import java.util.*;
