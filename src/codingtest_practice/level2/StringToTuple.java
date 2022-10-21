@@ -1,3 +1,7 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/64065
+//2022-10-21
+//튜플
+
 package codingtest_practice.level2;
 
 import java.util.*;
