@@ -1,3 +1,7 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/42889
+//2022-10-23
+//실패율
+
 package codingtest_practice.level1;
 
 import java.util.*;
