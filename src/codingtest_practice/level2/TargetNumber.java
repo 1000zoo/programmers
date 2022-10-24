@@ -1,3 +1,7 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/43165
+//2022-10-24
+//타겟 넘버
+
 package codingtest_practice.level2;
 
 public class TargetNumber {
