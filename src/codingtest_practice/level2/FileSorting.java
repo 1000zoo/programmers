@@ -8,65 +8,44 @@ import java.util.*;
 
 public class FileSorting {
 
-    //테스트케이스 6,7,8,9 안됨
+    //Time : Arrays.sort => O(NlogN)
+    //Space: O(s) (s : files 의 원소 길이)
     public String[] solution(String[] files) {
-
-        Arrays.sort(files, this::comparator);
-
-        for (String file : files) {
-            System.out.println("file = " + file);
-        }
-
+        Arrays.sort(files, this::compare);
         return files;
     }
 
-    private int comparator(String s1, String s2) {
+    private int compare(String s1, String s2) {
         s1 = s1.toLowerCase();
         s2 = s2.toLowerCase();
+        String h1 = headPart(s1), h2 = headPart(s2);
+        int n1 = numPart(s1, h1.length()), n2 = numPart(s2, h2.length());
 
-        int i1 = IntStartIndex(s1), i2 = IntStartIndex(s2);
-        int tc1 = trollCharIndex(s1), tc2 = trollCharIndex(s2);
-
-        if (tc1 != tc2 && (tc1 < i1 && tc2 < i2)) {
-            return s1.compareTo(s2);
-        }
-
-        if (i1 != i2) {
-            return s1.compareTo(s2);
-        } else if (i1 == -1) {
-            return s1.compareTo(s2);
-        } else if (!s1.substring(0, i1).equals(s2.substring(0, i2))) {
-            return s1.compareTo(s2);
-        } else {
-            int e1 = IntEndIndex(s1, i1), e2 = IntEndIndex(s2, i2);
-            s1 = s1.substring(i1, e1);
-            s2 = s2.substring(i2, e2);
-            return Integer.compare(Integer.parseInt(s1), Integer.parseInt(s2));
-        }
+        // head 부분이 다르다면 head 끼리 비교
+        if (!h1.equals(h2)) return h1.compareTo(h2);
+        // 그 외의 경우 숫자 부분만 비교 (같으면 0 => 기존 순서 유지)
+        return Integer.compare(n1, n2);
     }
 
-    private int IntStartIndex(String s) {
-        for (int i = 0; i < s.length(); i++) {
-            if (isNum(s.charAt(i))) return i;
+    // 숫자 이전의 부분
+    private String headPart(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (isNum(c)) break;
+            sb.append(c);
         }
-        return -1;
-    }
-    private int IntEndIndex(String s, int start) {
-        for (int i = start; i < s.length(); i++) {
-            if (!isNum(s.charAt(i))) return i;
-        }
-        return s.length();
+        return sb.toString();
     }
 
-    private int trollCharIndex(String s) {
-        for (int i = 0; i < s.length(); i++) {
-            if (trollChar(s.charAt(i))) return i;
-        }
-        return -1;
-    }
+    // 숫자 부분
+    private int numPart(String s, int headSize) {
+        StringBuilder sb = new StringBuilder();
 
-    private boolean trollChar(char c) {
-        return c == ' ' || c == '-' || c == '.';
+        for (int i = headSize; i < s.length(); i++) {
+            if (!isNum(s.charAt(i))) break;
+            sb.append(s.charAt(i));
+        }
+        return Integer.parseInt(sb.toString());
     }
 
     private boolean isNum(char c) {
