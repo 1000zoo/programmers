@@ -50,8 +50,4 @@ public class ParenthesesRotation {
             return '-';
         }
     }
-
-    public static void main(String[] args) {
-        solution("[)(]");
-    }
 }
