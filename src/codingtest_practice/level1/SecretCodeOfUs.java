@@ -35,7 +35,10 @@ public class SecretCodeOfUs {
         return answer.toString();
     }
 
+    //index - length 로 할 경우,
+    //index - length > length 일 때 null 관련 에러발생
+    //=> index % length
     private int checkBoundary(int index, int length) {
-        return index < length ? index : index - length;
+        return index < length ? index : index % length;
     }
 }
