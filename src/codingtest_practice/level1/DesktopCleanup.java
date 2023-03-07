@@ -1,3 +1,7 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/161990#
+//2023-03-07
+//바탕화면 정리
+
 package codingtest_practice.level1;
 
 public class DesktopCleanup {
