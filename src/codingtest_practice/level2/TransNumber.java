@@ -12,7 +12,7 @@ public class TransNumber {
     Set<Integer> temp;
     int target;
 
-    public int solution(int x, int y, int n) {
+    public int solution1(int x, int y, int n) {
         int answer = 0;
         target = y;
         set.add(x);
@@ -40,28 +40,27 @@ public class TransNumber {
         }
     }
 
-    // 왜 틀렸을까
+    public int solution(int x, int y, int n) {
+        int[] dp = new int[y + 1];
 
-//    public int solution(int x, int y, int n) {
-//        int[] dp = new int[y + 1];
-//
-//        Arrays.fill(dp, -1);
-//        dp[x] = 0;
-//        for (int i = x; i <= y; i++) {
-//            save(i, y, i + n, dp);
-//            save(i, y, i * 2, dp);
-//            save(i, y, i * 3, dp);
-//        }
-//        return dp[y];
-//    }
-//
-//    private void save(int origin, int target, int num, int[] dp) {
-//        if (num <= target) {
-//            if (dp[num] == -1) {
-//                dp[num] = 1;
-//            } else {
-//                dp[num] = Math.min(dp[origin] + 1, dp[num]);
-//            }
-//        }
-//    }
+        Arrays.fill(dp, -1);
+        dp[x] = 0;
+        for (int i = x; i <= y; i++) {
+            if (dp[i] == -1) continue;
+            save(i, y, i + n, dp);
+            save(i, y, i * 2, dp);
+            save(i, y, i * 3, dp);
+        }
+        return dp[y];
+    }
+
+    private void save(int origin, int target, int num, int[] dp) {
+        if (num <= target) {
+            if (dp[num] == -1) {
+                dp[num] = dp[origin] + 1;
+            } else {
+                dp[num] = Math.min(dp[origin] + 1, dp[num]);
+            }
+        }
+    }
 }
