@@ -1,3 +1,7 @@
+//2023-03-26
+//https://school.programmers.co.kr/learn/courses/30/lessons/72410
+//신규 아이디 추천
+
 package codingtest_practice.level1;
 
 public class RecommendNewID {
