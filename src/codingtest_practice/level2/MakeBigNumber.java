@@ -2,6 +2,8 @@
 //https://school.programmers.co.kr/learn/courses/30/lessons/42883
 //큰 수 만들기
 
+package codingtest_practice.level2;
+
 import java.util.*;
 
 class MakeBigNumber {
