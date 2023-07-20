@@ -1,3 +1,7 @@
+//2023-07-20
+//https://school.programmers.co.kr/learn/courses/30/lessons/68645
+//삼각 달팽이
+
 package codingtest_practice.level2;
 
 import java.util.*;
