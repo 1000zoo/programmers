@@ -9,7 +9,6 @@ import java.util.*;
 
 class MenuRenewal {
     public String[] solution(String[] orders, int[] course) {
-        List<String> answer = new ArrayList<>();
         List<Set<String>> setList = new ArrayList<>();
         Map<String, Integer> map = new HashMap<>();
 
