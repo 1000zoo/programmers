@@ -6,17 +6,16 @@ package codingtest_practice.level1;
 
 public class MixedNumberString {
     public int solution(String s) {
-        public int solution(String s) {
-            String[] list = {"zero", "one", "two", "three", "four",	"five",	"six", "seven", "eight", "nine"};
+        String[] list = {"zero", "one", "two", "three", "four",	"five",	"six", "seven", "eight", "nine"};
 
-            for (int i = 0; i < list.length; i++) {
-                s = s.replace(list[i], "" + i);
-            }
-            return Integer.parseInt(s);
+        for (int i = 0; i < list.length; i++) {
+            s = s.replace(list[i], "" + i);
         }
+        return Integer.parseInt(s);
+    }
 
 
-        public int solution2(String s) {
+    public int solution2(String s) {
         int answer = 0;
         String temp = "";
 
