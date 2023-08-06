@@ -1,0 +1,45 @@
+//2023-08-07
+//https://school.programmers.co.kr/learn/courses/30/lessons/86971#
+//전력망 둘로 나누기
+
+package codingtest_practice.level2;
+
+import java.util.*;
+
+class DivideTwoPowerGrid {
+
+
+    public int wrongSolution(int n, int[][] wires) {
+        int answer = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < wires.length; i++) {
+            Set<Integer> set1 = new HashSet<>();
+            Set<Integer> set2 = new HashSet<>();
+            for (int j = 0; j < wires.length; j++) {
+                if (i == j) continue;
+                if (set1.isEmpty() || atLeastContainsOne(set1, wires[j])) {
+                    add(set1, wires[j]);
+                } else {
+                    add(set2, wires[j]);
+                }
+            }
+            if (!set1.contains(wires[i][0])) {
+                set2.add(wires[i][0]);
+            } else if (!set1.contains(wires[i][1])) {
+                set2.add(wires[i][1]);
+            }
+            answer = Math.min(answer, Math.abs(set1.size() - set2.size()));
+        }
+        
+        return answer;
+    }
+    
+    private boolean atLeastContainsOne(Set<Integer> set, int[] wire) {
+        return set.contains(wire[0]) || set.contains(wire[1]);
+    }
+    
+    private void add(Set<Integer> set, int[] wire) {
+        set.add(wire[0]);
+        set.add(wire[1]);
+    }
+}
