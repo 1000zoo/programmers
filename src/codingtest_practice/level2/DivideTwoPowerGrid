@@ -7,8 +7,56 @@ package codingtest_practice.level2;
 import java.util.*;
 
 class DivideTwoPowerGrid {
+    Map<Integer, Set<Integer>> map;
+    public int solution(int n, int[][] wires) {
+        int answer = Integer.MAX_VALUE;
+        setMap(wires);
+        
+        for (int i = 0; i < wires.length; i++) {   //끊을 wire
+            map.get(wires[i][0]).remove(wires[i][1]);
+            map.get(wires[i][1]).remove(wires[i][0]);
+            answer = Math.min(answer, Math.abs(getSize(wires[i][0]) - getSize(wires[i][1])));
+            map.get(wires[i][0]).add(wires[i][1]);
+            map.get(wires[i][1]).add(wires[i][0]);
+        }
+        
+        
+        return answer;
+    }
+    
+    private int getSize(int node) {
+        return Math.max(1, traversal(new HashSet<>(), node, 0));
+    }
+    
+    private int traversal(Set<Integer> visited, int curr, int size) {
+        Set<Integer> currLinks = new HashSet<>(map.get(curr));
+        
+        for (int l : currLinks) {
+            if (!visited.contains(l)) {
+                visited.add(l);
+                size = traversal(visited, l, size + 1);
+            }
+        }
+        return size;
+    }
+    
+    private void setMap(int[][] wires) {
+        map = new HashMap<>();
+        for (int i = 1; i <= wires.length + 1; i++) {
+            map.put(i, new HashSet<>());
+        }
+        
+        for (int[] wire : wires) {
+            Set<Integer> temp = map.getOrDefault(wire[0], new HashSet<>());
+            temp.add(wire[1]);
+            map.put(wire[0], temp);
+            temp = map.getOrDefault(wire[1], new HashSet<>());
+            temp.add(wire[0]);
+            map.put(wire[1], temp);
+        }
+    }
 
-
+//틀린 풀이
     public int wrongSolution(int n, int[][] wires) {
         int answer = Integer.MAX_VALUE;
         
