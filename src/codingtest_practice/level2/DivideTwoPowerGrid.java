@@ -11,13 +11,13 @@ class DivideTwoPowerGrid {
     public int solution(int n, int[][] wires) {
         int answer = Integer.MAX_VALUE;
         setMap(wires);
-        
-        for (int i = 0; i < wires.length; i++) {   //끊을 wire
-            map.get(wires[i][0]).remove(wires[i][1]);
-            map.get(wires[i][1]).remove(wires[i][0]);
-            answer = Math.min(answer, Math.abs(getSize(wires[i][0]) - getSize(wires[i][1])));
-            map.get(wires[i][0]).add(wires[i][1]);
-            map.get(wires[i][1]).add(wires[i][0]);
+
+        for (int[] wire : wires) {   //끊을 wire
+            map.get(wire[0]).remove(wire[1]);
+            map.get(wire[1]).remove(wire[0]);
+            answer = Math.min(answer, Math.abs(getSize(wire[0]) - getSize(wire[1])));
+            map.get(wire[0]).add(wire[1]);
+            map.get(wire[1]).add(wire[0]);
         }
         
         
