@@ -5,8 +5,17 @@
 package codingtest_practice.level1;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class MemoryScore {
+    public int[] newSolution(String[] name, int[] yearning, String[][] photo) {
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < name.length; i++) {
+            map.put(name[i], yearning[i]);
+        }
+        return Arrays.stream(photo).map(p -> Arrays.stream(p).mapToInt(s -> map.getOrDefault(s, 0)).sum()).mapToInt(i -> i).toArray();
+    }
+
     public int[] solution(String[] name, int[] yearning, String[][] photo) {
         int[] answer = new int[photo.length];
         Map<String, Integer> map = new HashMap<>();
