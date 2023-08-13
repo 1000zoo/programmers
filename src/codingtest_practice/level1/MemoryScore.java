@@ -1,4 +1,4 @@
-//2023-04-17
+//2023-04-17 (resolved : 2023-08-14)
 //https://school.programmers.co.kr/learn/courses/30/lessons/176963
 //추억 점수
 
