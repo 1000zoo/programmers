@@ -5,8 +5,42 @@
 package codingtest_practice.level2;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class DeliveryTime {
+
+    public int newSolution(int N, int[][] road, int K) {
+        int[] totals = new int[N + 1];
+        Queue<Integer> pq = new LinkedList<>();
+
+        int[][] w = new int[N + 1][N + 1];
+        Arrays.fill(totals, 500001);
+        totals[1] = 0;
+        for (int i = 1; i <= N; i++) {
+            Arrays.fill(w[i], 500001);
+            w[i][i] = 0;
+        }
+
+        for (int[] r : road) {
+            w[r[0]][r[1]] = Math.min(w[r[0]][r[1]], r[2]);
+            w[r[1]][r[0]] = Math.min(w[r[1]][r[0]], r[2]);
+        }
+
+        for (int i = 2; i <= N; i++) {
+            pq.add(1);
+            while (!pq.isEmpty()) {
+                int curr = pq.poll();
+                for (int j = 1; j <= N; j++) {
+                    if (totals[j] > totals[curr] + w[curr][j]) {
+                        totals[j] = totals[curr] + w[curr][j];
+                        pq.add(j);
+                    }
+                }
+            }
+        }
+
+        return (int) IntStream.rangeClosed(1, N).filter(i -> totals[i] <= K).count();
+    }
 
     public int solution(int N, int[][] road, int K) {
         int answer = 0;
