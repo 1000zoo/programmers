@@ -4,7 +4,19 @@
 
 package codingtest_practice.level2;
 
+import java.util.*;
+
 public class MaxMinString {
+
+    public String newSolution(String s) {
+        int[] numbers = Arrays.stream(s.split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        int min = Arrays.stream(numbers).min().orElse(0);
+        int max = Arrays.stream(numbers).max().orElse(0);
+        return min + " " + max;
+    }
+
     public String solution(String s) {
         String answer = "";
         int min = Integer.MAX_VALUE;
