@@ -5,6 +5,26 @@
 package codingtest_practice.level2;
 
 class JadenCase {
+
+    public String newSolution(String s) {
+        StringBuilder answer = new StringBuilder();
+        boolean firstAlp = true;
+
+        for (char c : s.toCharArray()) {
+            if (c == ' ') {
+                firstAlp = true;
+                answer.append(c);
+            } else {
+                String temp = Character.toString(c);
+                temp = firstAlp ? temp.toUpperCase() : temp.toLowerCase();
+                answer.append(temp);
+                firstAlp = false;
+            }
+        }
+
+        return answer.toString();
+    }
+
     public String solution(String s) {
         StringBuilder answer = new StringBuilder();
         boolean start = true;
