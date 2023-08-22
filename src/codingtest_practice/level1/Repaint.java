@@ -7,6 +7,20 @@ package codingtest_practice.level1;
 import java.util.*;
 
 public class Repaint {
+
+    public int newSolution(int n, int m, int[] section) {
+        int answer = 1;
+        int start = section[0];
+
+        for (int sec : section) {
+            if (m > sec - start) continue;
+            start = sec;
+            answer++;
+        }
+
+        return answer;
+    }
+
     public int solution(int n, int m, int[] section) {
         int answer = 0;
 
