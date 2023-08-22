@@ -7,6 +7,26 @@ package codingtest_practice.level1;
 import java.util.*;
 
 public class FailRate {
+
+    public int[] newSolution(int N, int[] stages) {
+        Map<Integer, Double> map = new HashMap<>();
+
+        for (int i = 1; i <= N; i++) {
+            int total = 0;
+            int fail = 0;
+            for (int stage : stages) {
+                total += stage >= i ? 1 : 0;
+                fail += stage == i ? 1 : 0;
+            }
+            if (total == 0) map.put(i, 0.0);
+            else map.put(i, (double) fail / total);
+        }
+        List<Integer> keys = new ArrayList<>(map.keySet());
+        keys.sort((i1, i2) -> Double.compare(map.get(i2), map.get(i1)));
+
+        return keys.stream().mapToInt(i -> i).toArray();
+    }
+
     public int[] solution(int N, int[] stages) {
         int[] answer = {};
         SortedMap<Double, List<Integer>> map = new TreeMap<>(Collections.reverseOrder());
