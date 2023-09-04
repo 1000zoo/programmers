@@ -19,11 +19,7 @@ public class SeesawPartner {
 
             for (int p : pairSet) {
                 int num = numOf.getOrDefault(p, 0);
-                if (w == p) {
-                    answer += num > 1 ? num - 1 : 0;
-                } else {
-                    answer += num;
-                }
+                answer += w == p ? num - 1 : num;
             }
         }
 
