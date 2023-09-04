@@ -9,10 +9,10 @@ import java.util.*;
 public class CrossSteppingStones {
     public int solution(int[] stones, int k) {
         int answer = Integer.MAX_VALUE;
-        Deque<int[]> dq = new ArrayDeque<>();
+        Deque<int[]> dq = new LinkedList<>();
 
         for (int i = 0; i < stones.length; i++) {
-            while (!dq.isEmpty() && dq.peekLast()[1] < stones[i]) dq.pop();
+            while (!dq.isEmpty() && dq.peekLast()[1] < stones[i]) dq.removeLast();
             dq.addLast(new int[] {i, stones[i]});
 
             if (i - dq.getFirst()[0] >= k) dq.removeFirst();
