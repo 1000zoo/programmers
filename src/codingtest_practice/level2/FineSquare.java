@@ -18,8 +18,7 @@ public class FineSquare {
         long answer = 0;
 
         for (long x = 0; x < w; x++) {
-            long temp = countSq(w, h, x, x + 1);
-            answer += temp;
+            answer += countSq(w, h, x, x + 1);
         }
 
         return ((long) w * h) - answer;
