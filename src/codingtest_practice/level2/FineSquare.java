@@ -5,7 +5,6 @@
 package codingtest_practice.level2;
 
 public class FineSquare {
-
     public long newSolution(int w, int h) {
         return (long) w * h - (w + h - gcd(w, h));
     }
