@@ -8,33 +8,31 @@ import java.util.*;
 
 public class TowerOfHanoi {
 
+    private int index;
     private int[] currPos;
-    private List<int[]> answer;
+    private int[][] answer;
 
     public int[][] solution(int n) {
+        index = 0;
         currPos = new int[n + 1];
         Arrays.fill(currPos, 1);
-        answer = new ArrayList<>();
+        answer = new int[(int) Math.pow(2, n) - 1][];
         dfs(n, 3);
 
-        int[][] ans = new int[answer.size()][];
-        int index = 0;
-        for (int[] a : answer) ans[index++] = a;
-        return ans;
+        return answer;
     }
 
     private void dfs(int n, int to) {
         if (n == 1) {
-            answer.add(new int[] {currPos[n], to});
+            answer[index++] = new int[] {currPos[n], to};
             currPos[n] = to;
             return;
         }
 
         dfs(n - 1, nextTo(n, to));
-        answer.add(new int[] {currPos[n], to});
+        answer[index++] = new int[] {currPos[n], to};
         currPos[n] = to;
         dfs(n - 1, to);
-
     }
 
     private int nextTo(int n, int to) {
