@@ -21,7 +21,7 @@ public class RicochetRobot {
 
         while (!q.isEmpty()) {
             int[] curr = q.poll();
-            int[] next = {-1, -1};
+            int[] next;
             int nextDistance = dp[curr[0]][curr[1]] + 1;
 
             for (int i = 0; i < 4; i++) {
