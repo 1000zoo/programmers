@@ -1,3 +1,7 @@
+//2023-09-08
+//https://school.programmers.co.kr/learn/courses/30/lessons/169199
+//리코쳇 로봇
+
 package codingtest_practice.level2;
 
 import java.util.*;
