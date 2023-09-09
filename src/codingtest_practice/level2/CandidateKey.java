@@ -8,53 +8,63 @@ import java.util.*;
 
 public class CandidateKey {
 
+    public int solution(String[][] relation) {
+        int columnLength = relation[0].length;
 
+        List<List<Integer>> combinations = new ArrayList<>();
+        for (int i = 1; i <= columnLength; i++) {
+            combinations.addAll(generateCombinations(columnLength, i));
+        }
 
+        Set<Set<Integer>> candidateKeys = new HashSet<>();
 
-    public int wrongSolution(String[][] relation) {
-        int answer = 0;
-        int total = relation.length;
-
-        for (int i = 0; i < relation[0].length; i++) {
-            String[] attr = getAttr(relation, i);
-            if (isUnique(attr, total)) {
-                answer++;
-                continue;
+        for (List<Integer> combination : combinations) {
+            List<String> tuples = new ArrayList<>();
+            for (String[] row : relation) {
+                StringBuilder sb = new StringBuilder();
+                for (int index : combination) {
+                    sb.append(row[index]).append(" ");
+                }
+                tuples.add(sb.toString().trim());
             }
-            for (int j = i + 1; j < relation[0].length; j++) {
-                String[] sums = sumStrings(attr, getAttr(relation, j));
-                if (!isUnique(sums, total)) attr = sums;
-                else answer++;
+
+            if (isUnique(tuples) && checkMinimality(candidateKeys, new HashSet<>(combination))) {
+                candidateKeys.add(new HashSet<>(combination));
             }
         }
 
-        return answer;
+        return candidateKeys.size();
     }
 
-    private String[] getAttr(String[][] r, int a) {
-        String[] attrs = new String[r.length];
-        for (int i = 0; i < attrs.length; i++) {
-            attrs[i] = r[i][a];
+    public List<List<Integer>> generateCombinations(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        generateCombinationsUtil(result, new ArrayList<>(), n, k, 0);
+        return result;
+    }
+
+    private void generateCombinationsUtil(List<List<Integer>> result, List<Integer> temp, int n, int k, int start) {
+        if (temp.size() == k) {
+            result.add(new ArrayList<>(temp));
+            return;
         }
-        return attrs;
-    }
-
-    private String[] sumStrings(String[] A, String[] B) {
-        String[] sums = new String[A.length];
-
-        for (int i = 0; i < A.length; i++) {
-            sums[i] = A[i] + "." + B[i];
+        for (int i = start; i < n; i++) {
+            temp.add(i);
+            generateCombinationsUtil(result, temp, n, k, i + 1);
+            temp.remove(temp.size() - 1);
         }
-
-        return sums;
     }
 
-    private boolean isUnique(String[] tuple, int total) {
-        Set<String> set = new HashSet<>();
-
-        for (String t : tuple) set.add(t);
-
-        return set.size() == total;
+    public boolean isUnique(List<String> list) {
+        Set<String> set = new HashSet<>(list);
+        return set.size() == list.size();
     }
 
+    public boolean checkMinimality(Set<Set<Integer>> candidateKeys, Set<Integer> newKey) {
+        for (Set<Integer> existingKey : candidateKeys) {
+            if (newKey.containsAll(existingKey)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
