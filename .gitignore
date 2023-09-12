@@ -73,8 +73,6 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 .DS_Store
 .idea/
-*.iml
 *.xml
-out/
 
 Test.java
