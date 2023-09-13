@@ -1,5 +1,5 @@
 //2023-09-13
-//https://school.programmers.co.kr/learn/courses/30/lessons/42576
+//https://school.programmers.co.kr/learn/courses/30/lessons/42576?
 //완주하지 못한 선수
 
 package codingtest_practice.level1;
