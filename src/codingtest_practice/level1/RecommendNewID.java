@@ -5,6 +5,23 @@
 package codingtest_practice.level1;
 
 public class RecommendNewID {
+
+    public String newSolution(String newID) {
+        newID = newID.toLowerCase()
+                .replaceAll("[^a-z0-9-_.]", "")
+                .replaceAll("[.]{2,}", ".")
+                .replaceAll("^[.]", "")
+                .replaceAll("[.]$", "");
+
+        if (newID.length() == 0) newID = "a";
+        if (newID.length() > 15) {
+            newID = newID.substring(0, 15).replaceAll("[.]$", "");
+        }
+        if (newID.length() < 3) newID += newID.substring(newID.length() - 1).repeat(3 - newID.length());
+
+        return newID;
+    }
+
     public String solution(String new_id) {
         new_id = step1(new_id);
         new_id = step2(new_id);
