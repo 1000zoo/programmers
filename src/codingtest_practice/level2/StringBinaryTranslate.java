@@ -1,10 +1,27 @@
 //https://school.programmers.co.kr/learn/courses/30/lessons/70129
-//2022-09-26
+//2022-09-26 (새로운 풀이: 2023-09-28)
 //이진 변환 반복하기
 
 package codingtest_practice.level2;
 
 public class StringBinaryTranslate {
+
+
+    public int[] newSolution(String s) {
+        int transCount = 0;
+        int removedCount = 0;
+
+        while (!s.equals("1")) {
+            transCount++;
+            int prevSize = s.length();
+            s = s.replace("0", "");
+            removedCount += (prevSize - s.length());
+            s = Integer.toBinaryString(s.length());
+        }
+
+        return new int[] {transCount, removedCount};
+    }
+
     public static int[] solution(String s) {
         int[] answer = new int[2];
         String temp;
