@@ -16,17 +16,15 @@ class TableEdit {
         public Node(int n) {
             this.n = n;
         }
-        public Node(int n, Node up, Node down) {
-            this.n = n;
-            this.up = up;
-            this.down = down;
-        }
+
         public void setUp(Node up) {
             this.up = up;
         }
+
         public void setDown(Node down) {
             this.down = down;
         }
+
         public void removeThis() {
             if (this.up != null) {
                 this.up.setDown(this.down);
@@ -35,6 +33,7 @@ class TableEdit {
                 this.down.setUp(this.up);
             }
         }
+
         public void undo() {
             if (this.up != null) {
                 this.up.setDown(this);
@@ -46,10 +45,10 @@ class TableEdit {
     }
 
     private Node curr;
-    private Node first;
     private Stack<Node> removedStack;
 
     public String solution(int n, int k, String[] cmd) {
+
         init(n, k);
 
         for (String c : cmd) {
@@ -59,26 +58,17 @@ class TableEdit {
         return toString(n);
     }
 
-    private void print() {
-        Node temp = first;
-
-        while (temp != null) {
-            System.out.print(temp.n + " -> ");
-            temp = temp.down;
-        }
-        System.out.println("(" + curr.n + ")");
-
-    }
-
     private void decodeCmd(String cmd) {
         char option = cmd.charAt(0);
 
         if (option == 'U') {
-            up(cmd.charAt(2) - '0');
+            int n = Integer.parseInt(cmd.split(" ")[1]);
+            up(n);
             return;
         }
         if (option == 'D') {
-            down(cmd.charAt(2) - '0');
+            int n = Integer.parseInt(cmd.split(" ")[1]);
+            down(n);
             return;
         }
         if (option == 'C') {
@@ -89,15 +79,17 @@ class TableEdit {
     }
 
     private void up(int n) {
-        while (n-- > 0) {
+        while (n-- > 0 && curr.up != null) {
             curr = curr.up;
         }
     }
+
     private void down(int n) {
-        while (n-- > 0) {
+        while (n-- > 0 && curr.down != null) {
             curr = curr.down;
         }
     }
+
     private void remove() {
         curr.removeThis();
         removedStack.push(curr);
@@ -107,18 +99,19 @@ class TableEdit {
         }
         curr = curr.down;
     }
+
     private void undo() {
         removedStack.pop().undo();
     }
 
     private String toString(int n) {
         StringBuilder sb = new StringBuilder();
-        Node temp = first;
+        Node temp = curr;
         boolean[] list = new boolean[n];
+        Arrays.fill(list, true);
 
-        while (temp != null) {
-            list[temp.n] = true;
-            temp = temp.down;
+        for (Node node : removedStack) {
+            list[node.n] = false;
         }
 
         for (boolean tf : list) {
@@ -146,6 +139,5 @@ class TableEdit {
         nodes[n - 1].setUp(nodes[n - 2]);
 
         curr = nodes[k];
-        first = nodes[0];
     }
 }
