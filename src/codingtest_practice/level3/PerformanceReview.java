@@ -10,6 +10,30 @@ public class PerformanceReview {
 
     public int solution(int[][] scores) {
         int answer = 1;
+        int maxB = -1;
+        int[] wanho = scores[0];
+
+        Arrays.sort(scores, (o1, o2) -> o1[0] == o2[0] ? o1[1] - o2[1] : o2[0] - o1[0]);
+
+        for (int[] score : scores) {
+            if (maxB <= score[1]) {
+                maxB = score[1];
+                if (score[0] + score[1] > wanho[0] + wanho[1]) {
+                    answer++;
+                }
+                continue;
+            }
+            if (Arrays.equals(score, wanho)) {
+                return -1;
+            }
+        }
+
+        return answer;
+    }
+
+    // 25번 시간초과
+    public int timeLimit(int[][] scores) {
+        int answer = 1;
         int wonhoSum = scores[0][0] + scores[0][1];
 
         Map<Integer, Integer> map = new HashMap<>();
