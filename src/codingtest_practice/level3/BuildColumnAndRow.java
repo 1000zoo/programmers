@@ -1,8 +1,14 @@
+//2023-10-17
+//https://school.programmers.co.kr/learn/courses/30/lessons/60061
+//기둥과 보 설치
+
 package codingtest_practice.level3;
 
-public class BuildColumnAndRow {
+import java.util.*;
 
-    private class Location {
+class BuildColumnAndRow {
+
+    private static class Location {
         public Structure col;
         public Structure row;
 
@@ -30,59 +36,27 @@ public class BuildColumnAndRow {
         public boolean isEmpty() {
             return !hasCol() && !hasRow();
         }
-
-        @Override
-        public String toString() {
-            return "col: " + col + ", row: " + row;
-        }
     }
 
-    private class Structure {
+    private static class Structure {
         public int x;
         public int y;
         public int type; //-1: 없음, 0: 기둥, 1: 보
-
-        public int oppX;
-        public int oppY;
 
         public Structure(int x, int y, int type) {
             this.x = x;
             this.y = y;
             this.type = type;
-            this.oppX = x;
-            this.oppY = y;
-            setOpp();
-        }
-
-        private void setOpp() {
-            if (type == 0) {
-                this.oppY += 1;
-            }
-            if (type == 1) {
-                this.oppX += 1;
-            }
         }
 
         public boolean isEmpty() {
             return this.type == -1;
-        }
-        public boolean isColumn() {
-            return this.type == 0;
-        }
-        public boolean isRow() {
-            return this.type == 1;
-        }
-
-        @Override
-        public String toString() {
-            return "Structure = [" + x + ", " + y + "], type = " + type;
         }
     }
 
     private Location[][] wall;
 
     public int[][] solution(int n, int[][] buildFrame) {
-        int[][] answer = {};
         wall = new Location[n + 1][n + 1]; //[y][x]
         for (int i = 0; i <= n; i++) {
             for (int j = 0; j <= n; j++) {
@@ -93,6 +67,33 @@ public class BuildColumnAndRow {
         for (int[] frame : buildFrame) {
             process(frame);
         }
+
+        List<int[]> result = new ArrayList<>();
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                Location curr = wall[i][j];
+                if (curr.hasCol()) {
+                    result.add(new int[]{j, i, 0});
+                }
+                if (curr.hasRow()) {
+                    result.add(new int[]{j, i, 1});
+                }
+            }
+        }
+
+        int[][] answer = new int[result.size()][3];
+        for (int i = 0; i < result.size(); i++) {
+            answer[i] = result.get(i);
+        }
+        Arrays.sort(answer, (a, b) -> {
+            if (a[0] == b[0]) {
+                if (a[1] == b[1]) {
+                    return Integer.compare(a[2], b[2]);
+                }
+                return Integer.compare(a[1], b[1]);
+            }
+            return Integer.compare(a[0], b[0]);
+        });
 
         return answer;
     }
@@ -105,117 +106,61 @@ public class BuildColumnAndRow {
         build(frame);
     }
 
+    private boolean isValid(int x, int y, int type) {
+        if (type == 0) {
+            return y == 0 || wall[y][x].hasRow() || (x > 0 && wall[y][x - 1].hasRow()) || wall[y - 1][x].hasCol();
+        }
+        return (wall[y - 1][x].hasCol() || wall[y - 1][x + 1].hasCol()) || (x > 0 && wall[y][x - 1].hasRow() && wall[y][x + 1].hasRow());
+    }
+
     private void build(int[] frame) {
-        if (frame[2] == 0) {
-            buildColumn(frame[0], frame[1]);
-            return;
-        }
-        buildRow(frame[0], frame[1]);
-    }
-
-    private boolean canBuildColumn(int x, int y) {
-        if (y == 0) {
-            return true;
-        }
-
-        Location curr = wall[y][x];
-        Location under = wall[y - 1][x];
-
-        if (x == 0) {
-            return curr.hasRow() || under.hasCol();
-        }
-        Location left = wall[y][x - 1];
-
-        return left.hasRow() || curr.hasRow() || under.hasCol();
-    }
-
-    private void buildColumn(int x, int y) {
-        if (canBuildColumn(x, y)) {
-            Structure struct = new Structure(x, y, 0);
-            Location curr = wall[y][x];
-            curr.setCol(struct);
-        }
-    }
-
-    private boolean canBuildRow(int x, int y) {
-        if (y == 0) return false;
-
-        Location under = wall[y - 1][x];
-        Location right = wall[y][x + 1]; // 벽을 벗어나는 경우는 없다.
-        if (x == 0) {
-            return under.hasCol() || right.hasCol();
-        }
-        Location left = wall[y][x - 1];
-        Location underRight = wall[y - 1][x + 1];
-
-        return (left.hasRow() && right.hasRow()) ||
-                under.hasCol() || underRight.hasCol();
-    }
-
-    private void buildRow(int x, int y) {
-        if (canBuildRow(x, y)) {
-            Structure struct = new Structure(x, y, 1);
-            Location curr = wall[y][x];
-            curr.setRow(struct);
+        int x = frame[0];
+        int y = frame[1];
+        int type = frame[2];
+        if (isValid(x, y, type)) {
+            if (type == 0) {
+                wall[y][x].setCol(new Structure(x, y, type));
+                return;
+            }
+            wall[y][x].setRow(new Structure(x, y, type));
         }
     }
 
     private void remove(int[] frame) {
-        if (frame[2] == 0) {
-            removeColumn(frame[0], frame[1]);
-            return;
-        }
-        removeRow(frame[0], frame[1]);
-    }
+        int x = frame[0];
+        int y = frame[1];
+        int type = frame[2];
 
-    private boolean canNotRemoveColumnCase0(int x, int y) {
-        Location left = wall[y][x - 1];
-        return !canNotRemoveColumnCase1(x, y) || left.hasCol();
-    }
-
-    private boolean canNotRemoveColumnCase1(int x, int y) {
-        // 위에 기둥은 있는데 나머지는 없는 경우
-        Location upper = wall[y + 1][x];
-        Location upperRight = wall[y + 1][x - 1];
-        return upper.hasCol() && !upper.hasRow() && !upperRight.hasRow();
-    }
-
-    private boolean canNotRemoveColumnCase2(int x, int y) {
         Location curr = wall[y][x];
-        return false;
-    }
+        Structure backup;
 
-    private boolean canRemoveColumn(int x, int y) {
-//        Location upper = wall[y + 1][x];
-//        if (x == 0) {
-//            return !upper.isEmpty();
-//        }
-//        if (x == 1) {
-//
-//        }
-//        if (canNotRemoveColumnCase1(x, y) ||
-//        ) {
-//            return false;
-//        }
-
-        return false;
-    }
-
-    private void removeColumn(int x, int y) {
-        if (canRemoveColumn(x, y)) {
-            Location curr = wall[y][x];
+        if (type == 0) {
+            backup = curr.col;
             curr.removeCol();
-        }
-    }
-
-    private boolean canRemoveRow(int x, int y) {
-        return false;
-    }
-
-    private void removeRow(int x, int y) {
-        if (canRemoveRow(x, y)) {
-            Location curr = wall[y][x];
+        } else {
+            backup = curr.row;
             curr.removeRow();
+        }
+
+        for (int i = 0; i < wall.length; i++) {
+            for (int j = 0; j < wall[0].length; j++) {
+                if (wall[i][j].hasCol() && !isValid(j, i, 0)) {
+                    if (type == 0) {
+                        wall[y][x].setCol(backup);
+                    } else {
+                        wall[y][x].setRow(backup);
+                    }
+                    return;
+                }
+                if (wall[i][j].hasRow() && !isValid(j, i, 1)) {
+                    if (type == 0) {
+                        wall[y][x].setCol(backup);
+                    } else {
+                        wall[y][x].setRow(backup);
+                    }
+                    return;
+                }
+            }
         }
     }
 }
