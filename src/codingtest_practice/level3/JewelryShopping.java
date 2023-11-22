@@ -8,7 +8,6 @@ import java.util.*;
 
 public class JewelryShopping {
 
-
     public int[] solution(String[] gems) {
         int[] answer = new int[] {0, gems.length};
         Map<String, Integer> map = new HashMap<>();
