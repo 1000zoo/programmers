@@ -8,6 +8,7 @@ import java.util.*;
 
 public class JewelryShopping {
 
+
     public int[] solution(String[] gems) {
         int[] answer = new int[] {0, gems.length};
         Map<String, Integer> map = new HashMap<>();
@@ -18,7 +19,7 @@ public class JewelryShopping {
         int right = -1;
         boolean leftTurn = false;
 
-        while (true) {
+        while (leftTurn || right < gems.length - 1) {
             if (leftTurn) {
                 String leftGem = gems[left++];
                 map.put(leftGem, map.get(leftGem) - 1);
@@ -32,7 +33,6 @@ public class JewelryShopping {
 
             if (map.size() < set.size()) {
                 leftTurn = false;
-                if (right == gems.length - 1) return answer;
             } else if (map.size() == set.size()) {
                 leftTurn = true;
                 if (answer[1] - answer[0] > right - left) {
@@ -40,5 +40,6 @@ public class JewelryShopping {
                 }
             }
         }
+        return answer;
     }
 }
